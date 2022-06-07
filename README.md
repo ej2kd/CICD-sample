@@ -1,2 +1,2 @@
-# cicd-sample
-cicd-sample
+# CICD-Sample
+CICD-Sample
