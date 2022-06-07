@@ -13,6 +13,7 @@ jobs:
           name: Execute Create / Update Stack
           command: |
             aws cloudformation deploy --stack-name SampleStack --template-file infrastructure.yml
+            aws cloudformation wait stack-create-complete --stack-name SampleStack
 
 workflows:
   sample-workflow:
