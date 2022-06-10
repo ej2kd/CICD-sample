@@ -11,7 +11,7 @@ jobs:
       - aws-cli/setup
       - run:
           name: Execute Create / Update Stack
-          shell: |
+          command: |
             aws cloudformation deploy --stack-name SampleStack --template-file infrastructure.yml \
             --parameter-overrides ParameterKey=MyIpParameter,ParameterValue=$(curl -s ifconfig.me) \
               ParameterKey=DBName,ParameterValue=${DBName} \
