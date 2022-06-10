@@ -20,7 +20,6 @@ jobs:
                 DBUserName=$DBUserName \
                 DBPassword=$DBPassword \
               --no-fail-on-empty-changeset
-            aws cloudformation wait stack-create-complete --stack-name SampleStack
 
 workflows:
   sample-workflow:
