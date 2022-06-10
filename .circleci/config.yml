@@ -12,11 +12,7 @@ jobs:
       - run:
           name: Execute Create / Update Stack
           command: |
-            aws cloudformation deploy --stack-name SampleStack --template-file infrastructure.yml \
-            --parameter-overrides ParameterKey=MyIpParameter,ParameterValue=$(curl -s ifconfig.me) \
-              ParameterKey=DBName,ParameterValue=${DBName} \
-              ParameterKey=DBUserName,ParameterValue=${DBUserName} \
-              ParameterKey=DBPassword,ParameterValue=${DBPassword}
+            aws cloudformation deploy --stack-name SampleStack --template-file infrastructure.yml --parameter-overrides ParameterKey=MyIpParameter,ParameterValue="$(curl -s ifconfig.me)" ParameterKey=DBName,ParameterValue=$DBName ParameterKey=DBUserName,ParameterValue=$DBUserName ParameterKey=DBPassword,ParameterValue=$DBPassword
             aws cloudformation wait stack-create-complete --stack-name SampleStack
 
 workflows:
