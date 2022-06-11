@@ -32,7 +32,7 @@ jobs:
           fingerprints:
             - "e7:5c:dc:6d:c6:00:25:45:5d:12:fc:59:2f:02:bf:f3"
       - ansible-playbook/install:
-          version: "2.12.2"
+          version: "2.10.7"
       - ansible-playbook/playbook:
           inventory: ANSIBLE_INVENTORY
           playbook: ansible/test.yml
