@@ -2,13 +2,7 @@ version: 2.1
 
 orbs:
   aws-cli: circleci/aws-cli@3.1
-  # Document: https://circleci.com/developer/orbs/orb/orbss/ansible-playbook
-  ansible-playbook: orbss/ansible-playbook@0.0.5
-
-executors:
-  python:
-    docker:
-      - image: circleci/python
+  # ansible-playbook: orbss/ansible-playbook@0.0.5
 
 jobs:
   cloudformation:
@@ -28,21 +22,42 @@ jobs:
                 DBUserName=$DBUserName \
                 DBPassword=$DBPassword \
               --no-fail-on-empty-changeset
+      - run:
+          name: Add Public IPs to ansible inventory
+          command: |
+            aws ec2 describe-instances \
+              --filters "Name=tag:Name,Values=WebServer" \
+              --query "Reservations[*].Instances[0].PublicIpAddress" \
+              --output text >> ansible/inventory.ini
 
   ansible-playbook:
-    executor: python
+    # executor: ansible-playbook/default
+    docker:
+      - image: circleci/python
     steps:
       - checkout
       - add_ssh_keys:
           fingerprints:
             - "e7:5c:dc:6d:c6:00:25:45:5d:12:fc:59:2f:02:bf:f3"
-      - ansible-playbook/install:
-          version: "2.10.7"
-      - ansible-playbook/playbook:
-          inventory: ANSIBLE_INVENTORY
-          playbook: ansible/test.yml
-          private-key: ANSIBLE_SSH_KEY
-          playbook-options: -u ec2-user
+      - run:
+          name: Install ansible
+          command: |
+            sudo apt update
+            sudo apt install software-properties-common
+            sudo add-apt-repository --yes --update ppa:ansible/ansible
+            sudo apt install ansible
+      - run:
+          name: Execute Playbook
+          command: |
+            ansible-playbook -i ansible/inventory.ini ansible/test.yml --private-key=$ANSIBLE_SSH_KEY -u ec2-user
+
+      # - ansible-playbook/install:
+      #     version: "2.10.7"
+      # - ansible-playbook/playbook:
+      #     inventory: ANSIBLE_INVENTORY
+      #     playbook: ansible/test.yml
+      #     private-key: ANSIBLE_SSH_KEY
+      #     playbook-options: -u ec2-user
 
 workflows:
   sample-workflow:
