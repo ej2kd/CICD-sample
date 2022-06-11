@@ -16,7 +16,7 @@ jobs:
             aws cloudformation deploy \
               --stack-name SampleStack \
               --template-file infrastructure.yml \
-              --parameter-overrides MyIpParameter="$(curl -s ifconfig.me)" \
+              --parameter-overrides MyIpParameter=$MyIpParameter \
                 DBName=$DBName \
                 DBUserName=$DBUserName \
                 DBPassword=$DBPassword \
