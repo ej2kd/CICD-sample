@@ -44,12 +44,12 @@ jobs:
       - run:
           name: Install ansible
           command: |
-            sudo python -m pip install ansible
+            pip3 install ansible --user ansible
       - run:
           name: Execute Playbook
           command: |
             cat ansible/inventory.ini
-            ansible-playbook -i ansible/inventory.ini ansible/test.yml --private-key=$ANSIBLE_SSH_KEY -u ec2-user
+            ansible-playbook -i ansible/inventory.ini ansible/test.yml -u ec2-user
 
       # - ansible-playbook/install:
       #     version: "2.10.7"
