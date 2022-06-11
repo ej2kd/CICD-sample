@@ -45,4 +45,4 @@ workflows:
       - cloudformation
       - ansible-playbook:
           requires:
-            - "cloudformation"
+            - cloudformation
