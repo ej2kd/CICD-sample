@@ -44,9 +44,7 @@ jobs:
       - run:
           name: Install ansible
           command: |
-            sudo apt update
-            sudo apt install software-properties-common
-            sudo apt install ansible
+            sudo python -m pip install ansible
       - run:
           name: Execute Playbook
           command: |
