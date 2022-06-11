@@ -1,9 +1,5 @@
 AWSTemplateFormatVersion: 2010-09-09
 Parameters:
-  MyIpParameter:
-    Type: String
-    Description: Your current public IP address
-    NoEcho: true
   ProjectName:
     Type: String
     Default: MySampleApp
@@ -143,7 +139,7 @@ Resources:
       GroupDescription: Enable SSH access via port 22, and allow connections from ELB via port 80
       GroupName: WebServer-SG
       SecurityGroupIngress:
-        - CidrIp: !Join ['', [!Ref MyIpParameter, '/32']]
+        - CidrIp: 0.0.0.0/0
           IpProtocol: tcp
           FromPort: 22
           ToPort: 22
