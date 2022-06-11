@@ -25,7 +25,7 @@ jobs:
               --no-fail-on-empty-changeset
 
   ansible-playbook:
-    executor: ansible-playbook/default
+    executor: python
     steps:
       - checkout
       - add_ssh_keys:
