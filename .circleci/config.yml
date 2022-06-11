@@ -48,6 +48,7 @@ jobs:
       - run:
           name: Execute Playbook
           command: |
+            cat ansible/inventory.ini
             ansible-playbook -i ansible/inventory.ini ansible/test.yml --private-key=$ANSIBLE_SSH_KEY -u ec2-user
 
       # - ansible-playbook/install:
