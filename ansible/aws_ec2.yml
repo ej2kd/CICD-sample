@@ -1,0 +1,15 @@
+# Document: https://docs.ansible.com/ansible/latest/collections/amazon/aws/aws_ec2_inventory.html
+plugin: aws_ec2
+regions:
+  - ap-northeast-1
+
+# 使用可能なフィルタリング項目
+# https://docs.aws.amazon.com/cli/latest/reference/ec2/describe-instances.html#options
+filters:
+  # タグ名で対象ホストを絞り込む
+  tag:Name: WebServer
+
+keyed_groups:
+  # タグ名に基づき、ホストをグループ化
+  - key: tags.Name
+    separator: ""
