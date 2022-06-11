@@ -11,6 +11,7 @@ jobs:
       - aws-cli/setup
       - run:
           name: Execute Create / Update Stack
+          no_output_timeout: 20m
           command: |
             aws cloudformation deploy \
               --stack-name SampleStack \
