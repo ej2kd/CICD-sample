@@ -2,7 +2,6 @@ version: 2.1
 
 orbs:
   aws-cli: circleci/aws-cli@3.1
-  # ansible-playbook: orbss/ansible-playbook@0.0.5
 
 jobs:
   cloudformation:
@@ -17,7 +16,7 @@ jobs:
             aws cloudformation deploy \
               --stack-name SampleStack \
               --template-file infrastructure.yml \
-              --parameter-overrides MyIpParameter=$MyIpParameter \
+              --parameter-overrides \
                 DBName=$DBName \
                 DBUserName=$DBUserName \
                 DBPassword=$DBPassword \
@@ -25,9 +24,6 @@ jobs:
 
   ansible-playbook:
     executor: aws-cli/default
-    # executor: ansible-playbook/default
-    # docker:
-    #   - image: circleci/python
     steps:
       - checkout
       - aws-cli/setup
@@ -49,15 +45,7 @@ jobs:
           name: Execute Playbook
           command: |
             export ANSIBLE_HOST_KEY_CHECKING=False
-            ansible-playbook -i ansible/inventory.ini ansible/test.yml -u ec2-user
-
-      # - ansible-playbook/install:
-      #     version: "2.10.7"
-      # - ansible-playbook/playbook:
-      #     inventory: ANSIBLE_INVENTORY
-      #     playbook: ansible/test.yml
-      #     private-key: ANSIBLE_SSH_KEY
-      #     playbook-options: -u ec2-user
+            ansible-playbook -i ansible/inventory.ini ansible/site.yml -u ec2-user
 
 workflows:
   sample-workflow:
