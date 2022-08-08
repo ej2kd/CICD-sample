@@ -1,0 +1,7 @@
+- name: Install MySQL
+  yum:
+    name: "{{ item }}"
+    state: present
+  loop:
+    - mysql
+    - mysql-devel

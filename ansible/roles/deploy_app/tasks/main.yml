@@ -1,0 +1,19 @@
+- name: Check a app directory
+  stat:
+    path: "{{ app_dir }}"
+  register: app_dir_exists
+- name: Create an app directory
+  file:
+    path: "{{ app_dir }}"
+    state: directory
+    mode: 0775
+    owner: ec2-user
+    group: ec2-user
+- name: Install Rails Application
+  git:
+    repo: "{{ app_repogitory }}"
+    dest: "{{ app_dir }}"
+- name: Install Gems
+  command: bundle
+  args:
+    chdir: "{{ app_dir }}"/"{{ app_name }}"

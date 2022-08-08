@@ -16,13 +16,41 @@ jobs:
             aws cloudformation deploy \
               --stack-name SampleStack \
               --template-file infrastructure.yml \
-              --parameter-overrides MyIpParameter=$MyIpParameter \
+              --parameter-overrides \
                 DBName=$DBName \
                 DBUserName=$DBUserName \
                 DBPassword=$DBPassword \
               --no-fail-on-empty-changeset
 
+  ansible-playbook:
+    executor: aws-cli/default
+    steps:
+      - checkout
+      - aws-cli/setup
+      - add_ssh_keys:
+          fingerprints:
+            - "e7:5c:dc:6d:c6:00:25:45:5d:12:fc:59:2f:02:bf:f3"
+      - run:
+          name: Add Public IPs to ansible inventory
+          command: |
+            aws ec2 describe-instances \
+              --filters "Name=tag:Name,Values=WebServer" \
+              --query "Reservations[*].Instances[0].PublicIpAddress" \
+              --output text >> ansible/inventory.ini
+      - run:
+          name: Install ansible
+          command: |
+            pip3 install ansible --user ansible
+      - run:
+          name: Execute Playbook
+          command: |
+            export ANSIBLE_HOST_KEY_CHECKING=False
+            ansible-playbook -i ansible/inventory.ini ansible/site.yml -u ec2-user
+
 workflows:
   sample-workflow:
     jobs:
       - cloudformation
+      - ansible-playbook:
+          requires:
+            - cloudformation
