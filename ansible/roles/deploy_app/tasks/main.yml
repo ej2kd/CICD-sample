@@ -13,7 +13,7 @@
 - name: Install Rails Application
   git:
     repo: "{{ app_repogitory }}"
-    dest: "{{ app_dir }}"
+    dest: "{{ app_dir }}/{{ app_name }}"
 - name: Install Gems
   command: bundle
   args:
