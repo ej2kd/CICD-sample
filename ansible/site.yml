@@ -1,7 +1,11 @@
 - hosts: webservers
   become: yes
+  vars:
+    app_dir: /var/www
+    app_name: my-rails-shop-app # YOUR_APP_NAME
   roles:
     - rails
     - nodejs
     - mysql
     - nginx
+    - deplpy_app

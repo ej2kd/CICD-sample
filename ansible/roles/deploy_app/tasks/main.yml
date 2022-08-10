@@ -1,4 +1,4 @@
-- name: Check a app directory
+- name: Check an app directory
   stat:
     path: "{{ app_dir }}"
   register: app_dir_exists
