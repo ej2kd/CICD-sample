@@ -1,6 +1,6 @@
 - name: Check an app directory
   stat:
-    path: "{{ app_dir }}"
+    path: "{{ app_dir }}/{{ app_name }}"
   register: app_dir_exists
 - name: Create an app directory
   file:
