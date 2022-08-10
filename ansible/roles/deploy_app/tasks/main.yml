@@ -4,11 +4,12 @@
   register: app_dir_exists
 - name: Create an app directory
   file:
-    path: "{{ app_dir }}"
+    path: "{{ app_dir }}/{{ app_name }}"
     state: directory
     mode: 0775
     owner: ec2-user
     group: ec2-user
+  when: app_dir_exists is failed
 - name: Install Rails Application
   git:
     repo: "{{ app_repogitory }}"
