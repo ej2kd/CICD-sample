@@ -16,4 +16,4 @@
 - name: Install Gems
   command: bundle
   args:
-    chdir: "{{ app_dir }}"/"{{ app_name }}"
+    chdir: "{{ app_dir }}/{{ app_name }}"
