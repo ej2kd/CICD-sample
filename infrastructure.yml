@@ -238,11 +238,11 @@ Resources:
           TargetGroupArn: !Ref LoadBalancerTargetGroup
 
 # DNS
-  Dns:
+  myDNS:
     Type: AWS::Route53::RecordSetGroup
     Properties:
       HostedZoneName: ej2kd.com.
-      Comment: Zone apex alias targeted to ApplicationLoadBalancer.
+      Comment: Zone apex alias targeted to LoadBalancer.
       RecordSets:
       - Name: ej2kd.com.
         Type: A
