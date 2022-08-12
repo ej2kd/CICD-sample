@@ -11,10 +11,12 @@
     group: ec2-user
   when: app_dir_exists is failed
 - name: Install Rails Application
+  become_user: ec2-user
   git:
     repo: "{{ app_repogitory }}"
     dest: "{{ app_dir }}/{{ app_name }}"
 - name: Install Gems
-  command: bundler
+  become_user: ec2-user
+  command: bundle install
   args:
     chdir: "{{ app_dir }}/{{ app_name }}"
