@@ -1,19 +1,29 @@
-- name: Check a app directory
+- name: Check an app directory
   stat:
-    path: "{{ app_dir }}"
+    path: "{{ app_dir }}/{{ app_name }}"
   register: app_dir_exists
 - name: Create an app directory
   file:
-    path: "{{ app_dir }}"
+    path: "{{ app_dir }}/{{ app_name }}"
     state: directory
     mode: 0775
     owner: ec2-user
     group: ec2-user
+  when: app_dir_exists is failed
 - name: Install Rails Application
   git:
     repo: "{{ app_repogitory }}"
-    dest: "{{ app_dir }}"
+    dest: "{{ app_dir }}/{{ app_name }}"
+- name: Change file ownership, group and permissions
+  file:
+    path: "{{ app_dir }}/{{ app_name }}"
+    state: directory
+    recurse: yes
+    owner: ec2-user
+    group: ec2-user
+    mode: 0755
 - name: Install Gems
-  command: bundle
+  become_user: ec2-user
+  command: bundle install
   args:
-    chdir: "{{ app_dir }}"/"{{ app_name }}"
+    chdir: "{{ app_dir }}/{{ app_name }}"
